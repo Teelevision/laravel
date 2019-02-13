@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('my_laravel_addon/welcome', function () {
     return view('welcome');
 });
