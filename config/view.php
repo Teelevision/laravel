@@ -28,6 +28,6 @@ return [
     |
     */
 
-    'compiled' => realpath(storage_path('framework/views')),
+    'compiled' => realpath(redaxo_addon_cache_path('views')),
 
 ];
