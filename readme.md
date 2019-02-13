@@ -1,59 +1,70 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Laravel as Redaxo5 add-on
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+`teelevision/redaxo5-laravel` is a port of the [Laravel framework](https://github.com/laravel/laravel) that runs as an add-on in [Redaxo5](https://github.com/redaxo/redaxo). It aims at enabling you to write Redaxo5 add-ons the way you would write a Laravel application. 
 
-## About Laravel
+## Documentation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+This documentation only covers the differences to the [Laravel documentation](https://laravel.com/docs/5.5). Any topic not mentioned below is untested and might not be ready to use.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Getting Started
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+#### [Installation](https://laravel.com/docs/5.5/installation)
 
-## Learning Laravel
+In addition to the [Server Requirements](https://laravel.com/docs/5.5/installation#server-requirements) you will need a running instance of Redaxo version 5.0 or greater.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+Inside your Redaxo installation go to `/redaxo/src/addons` and run the following to install:
+```bash
+composer create-project teelevision/redaxo5-laravel my_laravel_addon "5.5.*"
+```
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+You do not need to configure your web server. I mean, there is no way to, you have to get a web server running Redaxo, not the add-on. You can use pretty URLs in the frontend using [YRewrite](https://github.com/yakamara/redaxo_yrewrite), I suppose. In the backend pretty URLs are not be supported.
 
-## Laravel Sponsors
+You should still [configure](https://laravel.com/docs/5.5/installation#configuration) your `.env` file, especially creating an application key.
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+Like every other add-on you have to install it in the Redaxo backend in order to use it.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+Make sure that the root directory of your add-on is writable, as well as the `storage` directory, its sub-directories, and the `bootstrap/cache` directory.
 
-## Contributing
+#### [Configuration](https://laravel.com/docs/5.5/configuration)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* [Environment Configuration](https://laravel.com/docs/5.5/configuration#environment-configuration)
+* [Accessing Configuration Values](https://laravel.com/docs/5.5/configuration#accessing-configuration-values)
 
-## Security Vulnerabilities
+#### [Directory Structure](https://laravel.com/docs/5.5/structure)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* [Introduction](https://laravel.com/docs/5.5/structure#introduction)
+* The Root Directory
+  * [The `app` Directory](https://laravel.com/docs/5.5/structure#the-root-app-directory)
+  * The `assets` Directory
+    * This is the [Redaxo add-on `assets` directory](https://redaxo.org/doku/master/addon-assets). Any files placed here are copied to a public directory when installing the add-on.
+  * [The `bootstrap` Directory](https://laravel.com/docs/5.5/structure#the-bootstrap-directory)
+  * [The `config` Directory](https://laravel.com/docs/5.5/structure#the-config-directory)
+    * Does not contain the `cache` directory which instead is moved to Redaxo's cache.
+  * [The `database` Directory](https://laravel.com/docs/5.5/structure#the-database-directory)
+  * The `lib` Directory
+    * The `lib` directory is used by add-ons to provide code that Redaxo scans and auto-loads. So this is directory needs to be used for classes and functions that should be available in the frontend (Redaxo modules) or to other add-ons.
+  * The `pages` Directory
+    * Contains some files for booting laravel in the backend and frontend.
+    * In the backend Redaxo calls the `index.php`
+  * [The `public` Directory](https://laravel.com/docs/5.5/structure#the-public-directory)
+    * Does not exist. The functionality lies within the `assets` and `pages` directories.
+  * [The `resources` Directory](https://laravel.com/docs/5.5/structure#the-resources-directory)
+  * [The `routes` Directory](https://laravel.com/docs/5.5/structure#the-routes-directory)
+  * [The `storage` Directory](https://laravel.com/docs/5.5/structure#the-storage-directory)
+    * As documented, except the compiled Blade templates and the framework cache are stored in Redaxo's cache rather than this directory.
+  * [The `tests` Directory](https://laravel.com/docs/5.5/structure#the-tests-directory)
+  * [The `vendor` Directory](https://laravel.com/docs/5.5/structure#the-vendor-directory)
+    * Is renamed `vendor-composer` because otherwise Redaxo tries to index all the files in there which could take minutes.
+  * The `vendor-composer` Directory
+    * Does what the [`vendor` directory](https://laravel.com/docs/5.5/structure#the-vendor-directory) does in Laravel.
+* [The App Directory](https://laravel.com/docs/5.5/structure#the-app-directory)
+
+## Motivation
+
+Redaxo provides very little for add-ons compared to the huge frameworks like Laravel. While this works for small add-ons it hardly satisfies my developer needs when creating something bigger. During one project I saw myself using more and more of the [`illuminate/*` packages](https://github.com/illuminate) that I love so much, that I decided to try booting the whole framework. I don't want to take a stand on whether this is a good idea, I just want to share this solution that helped me finish that one project.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is licensed as stated on [their page](https://github.com/laravel/laravel).
+
+All changes to the Laravel framework in this repository are open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
