@@ -45,13 +45,13 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => redaxo_addon_data_path(),
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => redaxo_addon_assets_path(),
+            'url' => env('APP_URL') . '/assets/addons/' . app('redaxo.addon.name'),
             'visibility' => 'public',
         ],
 
