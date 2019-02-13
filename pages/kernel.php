@@ -1,4 +1,5 @@
 <?php
+/** @var rex_addon $redaxoAddOn */
 
 /**
  * Laravel - A PHP Framework For Web Artisans
