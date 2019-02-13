@@ -24,7 +24,15 @@ if (!defined('LARAVEL_START')) {
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+/**
+ * Why use "vendor-composer" instead of the default "vendor"?
+ * REDAXO will try to analyse and cache information about all php files
+ * stored in the "lib" and "vendor" directories of an add-on. We are
+ * loading the whole Laravel framework which are a lot of files to analyse.
+ * This takes way too long and isn't necessary. Renaming the directory
+ * makes REDAXO got unnoticed of all those files.
+ */
+require __DIR__ . '/../vendor-composer/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
