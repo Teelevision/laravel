@@ -58,4 +58,15 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
+
+    protected function bootstrappers()
+    {
+        return array_merge(
+            [
+                \App\Foundation\Bootstrap\LoadRedaxoConfiguration::class,
+                \App\Foundation\Bootstrap\LoadRedaxoAddOnConfiguration::class,
+            ],
+            parent::bootstrappers()
+        );
+    }
 }
