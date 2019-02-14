@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth\RedaxoGuard;
+use App\Foundation\Application;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -25,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        \Auth::extend('redaxo', function (Application $app, string $name, array $config): Guard {
+            return new RedaxoGuard(\Auth::createUserProvider($config['provider']));
+        });
     }
 }
