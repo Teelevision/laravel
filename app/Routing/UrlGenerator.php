@@ -11,7 +11,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Get the URL for a given route instance.
      *
-     * @param  \Illuminate\Routing\Route $route
+     * @param  Route $route
      * @param  mixed $parameters
      * @param  bool $absolute
      * @return string
@@ -22,24 +22,15 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     {
         $route = clone $route;
 
-        if (starts_with($route->uri, 'frontend/')) {
+        if ($route->isFrontend()) {
             /**
              * Frontend route
              */
 
             /**
-             * Add the action of the route to the parameters.
+             * Set the uri of the route to the original request uri.
              */
-            $parameters['action'] = array_last(explode('/', $route->uri()));
-
-            /**
-             * Set uri of route.
-             * Either use the passed uri parameter or use the original request uri.
-             */
-            if (isset($parameters['uri'])) {
-                $route->setUri($parameters['uri']);
-                unset($parameters['uri']);
-            } elseif ($this->request instanceof FrontendRequest) {
+            if ($this->request instanceof FrontendRequest) {
                 $route->setUri($this->request->path());
             } else {
                 /**

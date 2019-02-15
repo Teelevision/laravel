@@ -21,7 +21,7 @@
 
 Route::get('my_laravel_addon/welcome', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +42,6 @@ Route::get('my_laravel_addon/welcome', function () {
 Route::get('headline', function (\App\Http\FrontendRequest $request) {
     $text = e($request->data['text']);
     $level = $request->data['level'];
-    return "<h$level>$text</h$level>";
-});
+    $uri = route('welcome');
+    return "<h$level><a href=\"$uri\">$text</a></h$level>";
+})->frontend();
