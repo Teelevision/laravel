@@ -20,9 +20,7 @@ list($kernel, $terminate) = require __DIR__ . '/kernel.php';
 $request = App\Http\FrontendRequest::capture();
 $request->uri = $uri;
 
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
+$response = $kernel->handle($request);
 
 $returnValue = null;
 if ($response instanceof \Illuminate\Http\RedirectResponse) {
