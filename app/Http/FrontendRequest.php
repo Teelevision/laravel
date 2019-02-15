@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 class FrontendRequest extends Request
 {
 
-    public $page;
+    public $uri;
 }

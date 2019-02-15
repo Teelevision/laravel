@@ -36,6 +36,26 @@ require_once __DIR__ . '/../vendor-composer/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
+| Correct Global State
+|--------------------------------------------------------------------------
+|
+| Redaxo might use global settings that we have to reset.
+| We restore those settings later.
+|
+*/
+
+$redaxoState = [
+    'arg_separator.output' => ini_get('arg_separator.output'),
+];
+
+ini_set('arg_separator.output', '&');
+
+$restoreRedaxoState = function () use ($redaxoState) {
+    ini_set('arg_separator.output', $redaxoState['arg_separator.output']);
+};
+
+/*
+|--------------------------------------------------------------------------
 | Turn On The Lights
 |--------------------------------------------------------------------------
 |
@@ -52,14 +72,20 @@ $app->setRedaxoAddOn($redaxoAddOn);
 
 /*
 |--------------------------------------------------------------------------
-| Run The Application
+| Prepare Request And Termination
 |--------------------------------------------------------------------------
 |
-| Once we have the application, we can handle the incoming request
-| through the kernel, and send the associated response back to
-| the client's browser allowing them to enjoy the creative
-| and wonderful application we have prepared for them.
+| Prepare the kernel that handles requests.
+| Also prepare the termination, i.e. what happens after handling the
+| request.
 |
 */
 
-return $app->make(Illuminate\Contracts\Http\Kernel::class);
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$terminate = function ($request, $response) use ($kernel, $restoreRedaxoState) {
+    $kernel->terminate($request, $response);
+    $restoreRedaxoState();
+};
+
+return [$kernel, $terminate];

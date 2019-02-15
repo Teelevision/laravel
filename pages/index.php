@@ -2,10 +2,20 @@
 /** @var rex_addon $this */
 $redaxoAddOn = $this;
 
-$redaxoRestoreFunc = require __DIR__ . '/redaxo_cleanup.php';
-
 /** @var App\Http\Kernel $kernel */
-$kernel = require __DIR__ . '/kernel.php';
+list($kernel, $terminate) = require __DIR__ . '/kernel.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
 
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
@@ -18,6 +28,4 @@ if ($response instanceof \Illuminate\Http\RedirectResponse) {
     $response->sendContent();
 }
 
-$kernel->terminate($request, $response);
-
-$redaxoRestoreFunc();
+$terminate($request, $response);

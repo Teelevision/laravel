@@ -1,49 +1,39 @@
-<?php /** @noinspection PhpUnusedParameterInspection */
+<?php
+/** @var rex_addon $redaxoAddOn */
+/** @var string $uri */
 
-/**
- * Executes the action and returns the result if it yields a json response.
- * Otherwise the response is send to the browser and null is returned.
- *
- * The $uri argument must be the uri of a route. See ../routes/web.php.
- * The last part of the uri is the action which is overwritten by the "action" query parameter.
- * For example if you provide "users/index" as $uri, the route "users/index" is matched.
- * But if the query additionally contains "action=edit", the route "users/edit" is matched.
- * This enables you to have multiple actions in the frontend while using a single module.
- * The action that you provide via $uri is the default action in case that no "action" query parameter is given.
- * You must always provide the default action.
- *
- * You can generate routes using for example route('users/edit'). This will return the current route with the query
- * parameter "action=edit".
- *
- * @param rex_addon $redaxoAddOn
- * @param string $uri
- * @return mixed
- */
-return function (rex_addon $redaxoAddOn, string $uri) {
+/** @var App\Http\Kernel $kernel */
+list($kernel, $terminate) = require __DIR__ . '/kernel.php';
 
-    $redaxoRestoreFunc = require __DIR__ . '/redaxo_cleanup.php';
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
 
-    /** @var App\Http\Kernel $kernel */
-    $kernel = require __DIR__ . '/kernel.php';
+$request = App\Http\FrontendRequest::capture();
+$request->uri = $uri;
 
-    $request = App\Http\FrontendRequest::capture();
-    $request->page = 'frontend/' . $uri;
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
 
-    $response = $kernel->handle($request);
+$returnValue = null;
+if ($response instanceof \Illuminate\Http\RedirectResponse) {
+    $response->send();
+} else if ($response instanceof \Illuminate\Http\JsonResponse) {
+    $returnValue = $response->getOriginalContent();
+} else {
+    $response->sendHeaders();
+    $response->sendContent();
+}
 
-    $returnValue = null;
-    if ($response instanceof \Illuminate\Http\RedirectResponse) {
-        $response->send();
-    } else if ($response instanceof \Illuminate\Http\JsonResponse) {
-        $returnValue = $response->getOriginalContent();
-    } else {
-        $response->sendHeaders();
-        $response->sendContent();
-    }
+$terminate($request, $response);
 
-    $kernel->terminate($request, $response);
-
-    $redaxoRestoreFunc();
-
-    return $returnValue;
-};
+return $returnValue;
