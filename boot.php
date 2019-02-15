@@ -20,7 +20,14 @@ if (rex::isBackend()) {
     }
 }
 
-/**
- * Let the facade know about the rex_addon instance.
- */
-MyLaravelAddOn::$redaxoAddOn = $this;
+/*
+|--------------------------------------------------------------------------
+| Enable Frontend Requests
+|--------------------------------------------------------------------------
+|
+| MyLaravelAddOn is the facade between this add-on and other parts of
+| Redaxo. In order to handle requests from other add-ons or modules it must
+| know about the Redaxo add-on instance.
+|
+*/
+MyLaravelAddOn::setRedaxoAddOn($this);

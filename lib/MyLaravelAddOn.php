@@ -9,8 +9,13 @@ abstract class MyLaravelAddOn
     /**
      * @var rex_addon
      */
-    public static $redaxoAddOn;
+    protected static $redaxoAddOn;
 
+
+    public static function setRedaxoAddOn(rex_addon $redaxoAddOn)
+    {
+        static::$redaxoAddOn = $redaxoAddOn;
+    }
 
     public static function frontend(string $uri, array $data = [])
     {
