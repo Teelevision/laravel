@@ -9,6 +9,12 @@ use App\Routing\Matching\PageValidator;
 class Route extends \Illuminate\Routing\Route
 {
 
+    /**
+     * @var bool
+     */
+    protected $frontend = false;
+
+
     public static function getValidators()
     {
         if (isset(static::$validators)) {
@@ -47,6 +53,17 @@ class Route extends \Illuminate\Routing\Route
         // TODO: if the query doesn't contain an id for the model binding, no error is thrown
         // TODO: if the query contains too many values, the route breaks
 
+        return $this;
+    }
+
+    public function isFrontend(): bool
+    {
+        return $this->frontend;
+    }
+
+    public function frontend(bool $frontend = true)
+    {
+        $this->frontend = $frontend;
         return $this;
     }
 }
