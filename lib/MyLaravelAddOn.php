@@ -11,21 +11,14 @@ abstract class MyLaravelAddOn
      */
     public static $redaxoAddOn;
 
-    /**
-     * @var array
-     */
-    protected static $params = [];
 
-
-    public static function frontend(string $uri, array $params = [])
+    public static function frontend(string $uri)
     {
-        static::$params = $params;
-        $frontend = require __DIR__ . '/../pages/frontend.php';
-        return $frontend(static::$redaxoAddOn, $uri);
+        return self::handle($uri, static::$redaxoAddOn);
     }
 
-    public function getParams(): array
+    protected static function handle(string $uri, rex_addon $redaxoAddOn)
     {
-        return self::$params;
+        return require __DIR__ . '/../pages/frontend.php';
     }
 }

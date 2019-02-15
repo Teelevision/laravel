@@ -28,7 +28,7 @@ class PageValidator implements ValidatorInterface
     public function matches(Route $route, Request $request)
     {
         if ($request instanceof FrontendRequest) {
-            $page = $request->page;
+            $page = $request->uri;
             $action = $request->query->get('action', '');
             if ($action !== '') {
                 $page = implode('/', array_slice(explode('/', $page), 0, -1)) . '/' . $action;
