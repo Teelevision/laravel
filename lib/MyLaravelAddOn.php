@@ -12,13 +12,18 @@ abstract class MyLaravelAddOn
     public static $redaxoAddOn;
 
 
-    public static function frontend(string $uri)
+    public static function frontend(string $uri, array $data = [])
     {
-        return self::handle($uri, static::$redaxoAddOn);
+        return self::handle($uri, $data, static::$redaxoAddOn);
     }
 
-    protected static function handle(string $uri, rex_addon $redaxoAddOn)
+    protected static function handle(string $uri, array $data, rex_addon $redaxoAddOn)
     {
         return require __DIR__ . '/../pages/frontend.php';
+    }
+
+    public static function headline(string $text, int $level = 1)
+    {
+        return self::frontend('headline', compact('text', 'level'));
     }
 }

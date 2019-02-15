@@ -8,4 +8,6 @@ class FrontendRequest extends Request
 {
 
     public $uri;
+
+    public $data;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Foundation;
 
+use App\Http\FrontendRequest;
 use App\Routing\RoutingServiceProvider;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Foundation\PackageManifest as BasePackageManifest;
@@ -118,6 +119,7 @@ class Application extends \Illuminate\Foundation\Application
         foreach ([
                      'redaxo.addon' => [\rex_addon::class],
                      'url' => [\App\Routing\UrlGenerator::class],
+                     'request' => [FrontendRequest::class],
                  ] as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);

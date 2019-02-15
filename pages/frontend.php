@@ -1,6 +1,7 @@
 <?php
 /** @var rex_addon $redaxoAddOn */
 /** @var string $uri */
+/** @var array $data */
 
 /** @var App\Http\Kernel $kernel */
 list($kernel, $terminate) = require __DIR__ . '/kernel.php';
@@ -19,6 +20,7 @@ list($kernel, $terminate) = require __DIR__ . '/kernel.php';
 
 $request = App\Http\FrontendRequest::capture();
 $request->uri = $uri;
+$request->data = $data;
 
 $response = $kernel->handle($request);
 
