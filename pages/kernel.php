@@ -32,7 +32,7 @@ if (!defined('LARAVEL_START')) {
  * This takes way too long and isn't necessary. Renaming the directory
  * makes REDAXO got unnoticed of all those files.
  */
-require __DIR__ . '/../vendor-composer/autoload.php';
+require_once __DIR__ . '/../vendor-composer/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
