@@ -50,12 +50,16 @@ Make sure that the root directory of your add-on is writable, as well as the `st
 
 ### [Views](https://laravel.com/docs/5.5/views)
 
-* Redaxo embeds the output of your add-on in the HTML that Redaxo generates in the backend and frontend. Therefore your templates don't need to generate HTML headers and the sort.
+* Redaxo embeds the output of your add-on in the HTML that Redaxo generates in the backend and frontend. Therefore your views don't need to generate HTML headers and the sort.
 
 ### [URL Generation](https://laravel.com/docs/5.5/urls)
 
 * You can generate urls using `action()` and `route()` helpers for backend routes only. This is because for frontend routes it is not generally possible to tell from which single url a frontend route will be called. Frontend routes can be called from anywhere outside your add-on.
 * Don't use the `url()` helper to generate urls, instead use the [`rex_url` class](https://redaxo.org/doku/master/pfade) and [`rex_getUrl` function](https://redaxo.org/doku/master/service-urls) provided by Redaxo.
+
+### [Pagination](https://laravel.com/docs/5.5/pagination)
+
+* Per default any pagination uses the `page` query parameter which is used by Redaxo in the backend for routing requests. Therefore you have to explicitly change the pagination page parameter like for example: `->paginate(15, ['*'], 'p')`.
 
 ## Motivation
 
