@@ -60,4 +60,15 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
+
+    protected function bootstrappers()
+    {
+        return array_merge(
+            [
+                \App\Foundation\Bootstrap\LoadRedaxoConfiguration::class,
+                \App\Foundation\Bootstrap\LoadRedaxoAddOnConfiguration::class,
+            ],
+            parent::bootstrappers()
+        );
+    }
 }

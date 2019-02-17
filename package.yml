@@ -1,0 +1,19 @@
+package: my_laravel_addon
+version: 1.0.0
+author: Marius Neugebauer
+
+page:
+  title: My Laravel AddOn
+  perm: my_laravel_addon[]
+  icon: rex-icon fa-ambulance
+  subpages:
+    welcome:
+      title: Welcome
+      icon: rex-icon fa-list-alt
+
+requires:
+  redaxo: '>=5.0.0'
+  # packages:
+  php:
+    version: '>=7.0.0'
+    extensions: []
