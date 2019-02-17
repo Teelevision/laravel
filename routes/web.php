@@ -44,4 +44,4 @@ Route::get('headline', function (\App\Http\FrontendRequest $request) {
     $level = $request->data['level'];
     $uri = route('welcome');
     return "<h$level><a href=\"$uri\">$text</a></h$level>";
-})->frontend();
+});

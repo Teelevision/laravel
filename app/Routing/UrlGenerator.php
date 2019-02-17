@@ -2,9 +2,6 @@
 
 namespace App\Routing;
 
-use Illuminate\Routing\Exceptions\UrlGenerationException;
-use App\Http\FrontendRequest;
-
 class UrlGenerator extends \Illuminate\Routing\UrlGenerator
 {
 
@@ -22,44 +19,21 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     {
         $route = clone $route;
 
-        if ($route->isFrontend()) {
-            /**
-             * Frontend route
-             */
+        /**
+         * Set the uri as the page parameter.
+         */
+        $parameters['page'] = $route->uri();
 
+        if (\rex::isBackend()) {
             /**
-             * Set the uri of the route to the original request uri.
+             * Generating the backend url from the backend: no uri needed.
              */
-            if ($this->request instanceof FrontendRequest) {
-                $route->setUri($this->request->path());
-            } else {
-                /**
-                 * When trying to generate a frontend route from the backend and no uri parameter is given.
-                 */
-                throw UrlGenerationException::forMissingParameters($route);
-            }
-
+            $route->setUri('');
         } else {
             /**
-             * Backend route (web, ..., basically everything that isn't frontend)
+             * Generating the backend url from the frontend: set the uri to redaxo's backend controller.
              */
-
-            /**
-             * Set the uri as the page parameter.
-             */
-            $parameters['page'] = $route->uri();
-
-            if (\rex::isBackend()) {
-                /**
-                 * Generating the backend url from the backend: no uri needed.
-                 */
-                $route->setUri('');
-            } else {
-                /**
-                 * Generating the backend url from the frontend: set the uri to redaxo's backend controller.
-                 */
-                $route->setUri(\rex_url::backendController());
-            }
+            $route->setUri(\rex_url::backendController());
         }
 
         $uri = parent::toRoute($route, $parameters, $absolute);
