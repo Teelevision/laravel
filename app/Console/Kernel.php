@@ -39,4 +39,15 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    protected function bootstrappers()
+    {
+        return array_merge(
+            [
+                \App\Foundation\Bootstrap\LoadRedaxoConfiguration::class,
+                \App\Foundation\Bootstrap\LoadRedaxoAddOnConfiguration::class,
+            ],
+            parent::bootstrappers()
+        );
+    }
 }

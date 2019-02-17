@@ -77,4 +77,15 @@ class Kernel extends HttpKernel
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
     ];
+
+    protected function bootstrappers()
+    {
+        return array_merge(
+            [
+                \App\Foundation\Bootstrap\LoadRedaxoConfiguration::class,
+                \App\Foundation\Bootstrap\LoadRedaxoAddOnConfiguration::class,
+            ],
+            parent::bootstrappers()
+        );
+    }
 }
